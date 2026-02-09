@@ -23,18 +23,13 @@ def process_import_file(input_file_name):
         state = State.READING_IMAGES
         images = []
       case State.READING_IMAGES:
-        if line == "image transforms:":
+        if check_reading_images_line_validity_and_return_continue(line, line_num, state):
           state = State.PROCESSING_IMAGES
-          continue
-        if not line.startswith("- "):
-          raise ValueError(f"Error on line {line_num}: line should be an image name that starts with \'- \' but instead is \'{line}\'; state is READING_IMAGES")
-        images.append(line[2:])
+        else:
+          images.append(line[2:])
       case State.PROCESSING_IMAGES:
-        if not line.startswith("- "):
-          raise ValueError(f"Error on line {line_num}: line should be an image name that starts with \'- \' but instead is \'{line}\'; state is PROCESSING_IMAGES")
+        check_processing_images_line_validity(line, line_num, image_index, images)
         image_index += 1
-        if not line[3:-1] == images[image_index]:
-          raise ValueError(f"Error on line {line_num}: line image name does not match image name from list. Line image name: {line[3:-1]}, list image name: {images[image_index]}")
         # assign image
         state = State.PROCESSING_IMAGES
       case State.RECEIVING_TRANSFORMATIONS:
@@ -42,4 +37,15 @@ def process_import_file(input_file_name):
           raise ValueError(f"Error on line {line_num}: line should be a transformation name that starts with \'-- \' but instead is \'{line}\'; state is RECIEVING_TRANSFORMATIONS")
         transformation = line[4:-1]
 
+def check_reading_images_line_validity_and_return_continue(line, line_num) -> bool:
+  if line == "image transforms:":
+    return True # If we have reached the end of the image list, it sends signal to change state
+  if not line.startswith("- "):
+    raise ValueError(f"Error on line {line_num}: line should be an image name that starts with \'- \' but instead is \'{line}\'; state is READING_IMAGES")
+  
+def check_processing_images_line_validity(line, line_num, image_index, images):
+  if not line.startswith("- "):
+    raise ValueError(f"Error on line {line_num}: line should be an image name that starts with \'- \' but instead is \'{line}\'; state is PROCESSING_IMAGES")
+  if not line[3:-1] == images[image_index+1]:
+    raise ValueError(f"Error on line {line_num}: line image name does not match image name from list. Line image name: {line[3:-1]}, list image name: {images[image_index]}")
 
