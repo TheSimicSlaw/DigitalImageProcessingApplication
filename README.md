@@ -1,7 +1,7 @@
 # DigitalImageProcessingApplication
 This is an application that takes an instructions file and set of images and reads instructions from the file on how to alter the entered images. The file should be structured as such:
 
----
+START_FILE
 images:
 - image1.jpg
 - image2.jpg
@@ -28,3 +28,5 @@ image transforms:
 - image3.jpg:
 -- return:
 ---image3_unchanged
+completed
+END_FILE
