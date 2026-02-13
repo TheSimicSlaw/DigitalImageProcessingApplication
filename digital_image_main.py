@@ -1,17 +1,22 @@
 from dip_imports import *
+from digital_image_input_processor import process_import_file
 
 def main():
-  parser = ArgumentParser # input text file to read instructions from, output folder of images to create
+  print("hello")
+  parser = ArgumentParser() # input text file to read instructions from, output folder of images to create
 
   parser.add_argument("-f", "--input_file", dest="input_file", help="enter the name of the instructions file")
   parser.add_argument("-o", "--output_folder", dest="output_folder")
 
-  args = parser.parse_args
+  args = parser.parse_args()
+  print("args parsed")
   args_valid_check(args)
 
   set_directory(args.output_folder)
 
-  
+  process_import_file(args.input_file, args.output_folder)
+
+
 
 def set_directory(output_folder_name):
   parent_dir = Path(__file__).resolve().parent
@@ -25,8 +30,13 @@ def set_directory(output_folder_name):
 
 def args_valid_check(args):
   if args.input_file == None:
+    print("input_file is missing. Please enter one and start again")
     raise WindowsError("input_file is missing. Please enter one and start again")
   if args.output_folder == None:
+    print("output_folder is missing")
     raise WindowsError("output_folder is missing")
 
+
+if __name__ == "__main__":  
+  main()
   
