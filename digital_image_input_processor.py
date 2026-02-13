@@ -1,6 +1,6 @@
-from email.mime import image
-from cv2 import line
 from dip_imports import *
+import math
+from image_rotation import rotate
 
 class State(Enum):
   BASE = 0
@@ -10,11 +10,6 @@ class State(Enum):
   RECEIVING_TRANSFORM_DETAILS = 4
   COMPLETED_TRANSFORMATIONS = 5
 
-def rotate(image, angle, type, rescaled):
-  angle = float(angle)
-
-  print("rotating")
-  return image # placeholder
 
 def grayscale_circle(image, radius, center_x, center_y):  # the values being passed in for parameters are strings 
                                                           # and will be converted accordingly
@@ -23,13 +18,13 @@ def grayscale_circle(image, radius, center_x, center_y):  # the values being pas
   center_y = int(center_y)
 
   print("grayscaling circle")
-  out = zeros(image.shape, dtype=numpy.uint8)
+  out = zeros(image.shape, uint8)
   for x in range(image.shape[1]):
     for y in range(image.shape[0]):
       if (x - center_x) ** 2 + (y - center_y) ** 2 > radius ** 2:
         out[y][x] = image[y][x]
       else:
-        out[y][x] = numpy.uint8((int(image[y][x][0]) + int(image[y][x][1]) + int(image[y][x][2])) // 3)
+        out[y][x] = uint8((int(image[y][x][0]) + int(image[y][x][1]) + int(image[y][x][2])) // 3)
   return out
 
 def crop(image, start_x, end_x, start_y, end_y):
@@ -55,7 +50,7 @@ SHAPE_FUNCTIONS = {
 
 SHAPE_FUNCTION_PARAMETERS = { # this is used to define which parameters are needed for each transformation 
                               # and what types the input should be coerced into
-  "rotate": ["angle", "type", "rescaled"],
+  "rotate": ["angle", "type"],
   "grayscale_circle": ["radius", "center_x", "center_y"],
   "crop": ["start_x", "end_x", "start_y", "end_y"],
   "save": ["image_name"]
@@ -119,11 +114,11 @@ def process_import_file(input_file_name, output_directory):
           # call transformation function with parameters
           if transformation == "save":
             save_image(images[image_index], transformation_parameters[0], output_directory)
+            state = State.PROCESSING_IMAGES
           else:
             function_to_call = SHAPE_FUNCTIONS[transformation]
             images[image_index] = function_to_call(images[image_index], *transformation_parameters)
-          state = State.RECEIVING_TRANSFORMATIONS
-          continue
+            state = State.RECEIVING_TRANSFORMATIONS
       case State.COMPLETED_TRANSFORMATIONS:
         print("completed transformations")
 

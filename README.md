@@ -18,7 +18,6 @@ image transforms:
 -- rotate:
 --- angle 3
 --- type nearest_neighbor_interpolation
---- rescaled True
 -- crop:
 --- start_x 20
 --- end_x 180
@@ -34,6 +33,6 @@ END_FILE
 
 Available Transformation:
 - grayscale_circle returns the image passed in except that all pixels within a circle of a given radius centered on the point defined by center_x and center_y have been converted to their grayscale equivalent
-- rotate returns the image rotated at a certain angle (defined in radians), with the types "no_interpolation", "nearest_neighbor_interpolation," and "bilinear_interpolation" and with the options to rescale it to the original dimensions (true) or leave it at the rotated dimensions (false)
+- rotate returns the image rotated at a certain angle (defined in radians), with the types "nearest_neighbor_interpolation" and "bilinear_interpolation"
 - crop returns the image cropped to rectangular dimensions specified by starting and ending x and y values
 - save saves the image that has been put through the transformations to the directory specified with the name given

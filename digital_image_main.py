@@ -2,7 +2,7 @@ from dip_imports import *
 from digital_image_input_processor import process_import_file
 
 def main():
-  print("hello")
+  print("running main")
   parser = ArgumentParser() # input text file to read instructions from, output folder of images to create
 
   parser.add_argument("-f", "--input_file", dest="input_file", help="enter the name of the instructions file")
