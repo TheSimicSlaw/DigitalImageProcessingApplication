@@ -12,9 +12,9 @@ def main():
   print("args parsed")
   args_valid_check(args)
 
-  set_directory(args.output_folder)
+  dir = set_directory(args.output_folder)
 
-  process_import_file(args.input_file, args.output_folder)
+  process_import_file(args.input_file, dir)
 
 
 
@@ -27,6 +27,8 @@ def set_directory(output_folder_name):
     print("Successfully created directory {arg_dir}")
   except OSError as e:
     print("Error creating directory {arg_dir}: {e}")
+
+  return arg_dir
 
 def args_valid_check(args):
   if args.input_file == None:
