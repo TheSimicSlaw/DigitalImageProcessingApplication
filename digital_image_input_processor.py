@@ -38,7 +38,7 @@ def crop(image, start_x, end_x, start_y, end_y):
 
 def save_image(image, image_name, output_directory):
   print(f"saving image {image_name} to {output_directory}")
-  output_name = str(output_directory) + "\\" + image_name
+  output_name = os.path.join(str(output_directory), image_name)
   imwrite(output_name, image)
 
 SHAPE_FUNCTIONS = {
