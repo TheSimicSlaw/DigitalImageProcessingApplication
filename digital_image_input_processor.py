@@ -1,5 +1,8 @@
-from dip_imports import *
 import math
+import os
+from enum import Enum
+from cv2 import imread, imwrite
+from numpy import uint8, zeros
 from image_rotation import rotate
 
 class State(Enum):

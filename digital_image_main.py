@@ -1,4 +1,6 @@
-from dip_imports import *
+from argparse import ArgumentParser
+import os
+from pathlib import Path
 from digital_image_input_processor import process_import_file
 
 def main():
