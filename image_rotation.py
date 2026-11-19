@@ -10,13 +10,13 @@ def rotate(image, angle, type):
   trans_mat = array([[math.cos(radian_angle), -math.sin(radian_angle)], 
                          [math.sin(radian_angle), math.cos(radian_angle)]]) # rotation matrix, counterclockwise by angle in radians
   inv_trans_mat = array([[math.cos(radian_angle), math.sin(radian_angle)], 
-                         [-math.sin(radian_angle), math.cos(radian_angle)]]) # rotation matrix, counterclockwise by angle in radians
+                         [-math.sin(radian_angle), math.cos(radian_angle)]]) # inverse rotation matrix, clockwise by angle in radians
   img_size = image.shape
   print(f"image size: {img_size}")
-  transf_corners = [array([0, 0], dtype=int) for _ in range(4)]
-  transf_corners[1] = (trans_mat @ array([0, img_size[0]])).astype(int)
-  transf_corners[2] = (trans_mat @ array([img_size[1], img_size[0]])).astype(int)
-  transf_corners[3] = (trans_mat @ array([img_size[1], 0])).astype(int)
+  transf_corners = [array([0, 0], dtype=int) for _ in range(4)] # top left corner (OG origin)
+  transf_corners[1] = (trans_mat @ array([img_size[0], 0])).astype(int) # bottom left corner
+  transf_corners[2] = (trans_mat @ array([img_size[0], img_size[1]])).astype(int) # bottom right corner
+  transf_corners[3] = (trans_mat @ array([0, img_size[1],])).astype(int) # top right corner
   print(f"transformed corners: {transf_corners}")
 
   new_corners = [array([0, 0], dtype=int) for _ in range(2)]
@@ -35,26 +35,29 @@ def rotate(image, angle, type):
   print(f"new image size: {new_img_size}")
 
   # Shift output pixel coordinates so inverse mapping samples from valid source space.
-  origin = [-new_corners[0][0], -new_corners[0][1]] 
+  origin = [new_corners[0][0], new_corners[0][1]] 
   print(f"origin: {origin}")
   
   rotated_image = zeros(new_img_size, uint8)
 
   if type == "nearest_neighbor_interpolation" or type == "nearest_neighbor":
-    for i in range(0, new_img_size[0]):
-      for j in range(0, new_img_size[1]):
-        i_prime, j_prime = int(i - origin[0]), int(j - origin[1])
-        location = inv_trans_mat @ array([i_prime, j_prime])
-        nearest_x, nearest_y = int(round(location[0], 0)), int(round(location[1], 0))
-        if(nearest_x>=0 and nearest_y>=0 and nearest_x<img_size[0] and nearest_y<img_size[1]):
-          rotated_image[i, j] = image[nearest_x, nearest_y]
+    for row in range(0, new_img_size[0]): 
+      for col in range(0, new_img_size[1]):
+        r_dest, c_dest = int(row + origin[0]), int(col + origin[1])
+        location = inv_trans_mat @ array([r_dest, c_dest])
+        nearest_row, nearest_col = int(round(location[0], 0)), int(round(location[1], 0))
+        if(0 <= nearest_row < img_size[0] and 0 <= nearest_col < img_size[1]):
+          rotated_image[row, col] = image[nearest_row, nearest_col] 
+        if nearest_col == 0 and nearest_row == 0:
+          print(f"origin: ({row}, {col})")
+
   elif type == "bilinear_interpolation" or type == "bilinear":
-    for i in range(0, new_img_size[0]):
-      for j in range(0, new_img_size[1]):
-        i_prime, j_prime = int(i - origin[0]), int(j - origin[1])
-        location = inv_trans_mat @ array([i_prime, j_prime])
+    for row in range(0, new_img_size[0]):
+      for col in range(0, new_img_size[1]):
+        r_dest, c_dest = int(row + origin[0]), int(col + origin[1])
+        location = inv_trans_mat @ array([r_dest, c_dest])
         if(math.floor(location[0])>=0 and math.floor(location[1])>=0 and math.ceil(location[0])<img_size[0] and math.ceil(location[1])<img_size[1]):
-          rotated_image[i, j] = bilinear_interpolation(math.floor(location[0]), math.ceil(location[0]), math.floor(location[1]), math.ceil(location[1]), location[0], location[1], 
+          rotated_image[row, col] = bilinear_interpolation(math.floor(location[0]), math.ceil(location[0]), math.floor(location[1]), math.ceil(location[1]), location[0], location[1], 
                                                               image[math.floor(location[0])][math.floor(location[1])], image[math.ceil(location[0])][math.floor(location[1])], 
                                                               image[math.floor(location[0])][math.ceil(location[1])], image[math.ceil(location[0])][math.ceil(location[1])])
   else:
