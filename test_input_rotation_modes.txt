@@ -1,0 +1,59 @@
+images:
+- spirals.png
+- spirals.png
+- spirals.png
+- spirals.png
+- spirals.png
+- spirals.png
+- spirals.png
+- spirals.png
+image transforms:
+- spirals.png:
+-- rotate:
+--- angle 15
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name spirals_rotated_nn_15.png
+- spirals.png:
+-- rotate:
+--- angle 30
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name spirals_rotated_nn_30.png
+- spirals.png:
+-- rotate:
+--- angle 45
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name spirals_rotated_nn_45.png
+- spirals.png:
+-- rotate:
+--- angle 120
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name spirals_rotated_nn_120.png
+- spirals.png:
+-- rotate:
+--- angle 15
+--- type bilinear_interpolation
+-- save:
+--- image_name spirals_rotated_bilinear_15.png
+- spirals.png:
+-- rotate:
+--- angle 30
+--- type bilinear_interpolation
+-- save:
+--- image_name spirals_rotated_bilinear_30.png
+- spirals.png:
+-- rotate:
+--- angle 45
+--- type bilinear_interpolation
+-- save:
+--- image_name spirals_rotated_bilinear_45.png
+- spirals.png:
+-- rotate:
+--- angle 120
+--- type bilinear_interpolation
+-- save:
+--- image_name spirals_rotated_bilinear_120.png
+completed

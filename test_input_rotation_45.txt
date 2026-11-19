@@ -1,0 +1,24 @@
+images:
+- lion.jpg
+- birds_over_waves.jpg
+- mtg_logo_no_background.png
+image transforms:
+- lion.jpg:
+-- rotate:
+--- angle 45
+--- type bilinear_interpolation
+-- save:
+--- image_name lion_rotated_bilinear_45.jpg
+- birds_over_waves.jpg:
+-- rotate:
+--- angle 45
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name birds_rotated_nn_45.jpg
+- mtg_logo_no_background.png:
+-- rotate:
+--- angle 45
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name mtg_logo_nn_45.png
+completed

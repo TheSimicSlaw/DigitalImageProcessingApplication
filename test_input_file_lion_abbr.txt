@@ -1,0 +1,11 @@
+images:
+- lion.jpg
+image transforms:
+- lion.jpg:
+-- grayscale_circle:
+--- radius 970
+--- center_x 1750
+--- center_y 990
+-- save:
+--- image_name lion_gray_circled.jpg
+completed

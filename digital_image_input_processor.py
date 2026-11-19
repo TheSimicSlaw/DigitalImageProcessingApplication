@@ -1,9 +1,9 @@
 import math
 import os
 from enum import Enum
-from cv2 import imread, imwrite
+from cv2 import IMREAD_UNCHANGED, imread, imwrite
 from numpy import uint8, zeros
-from image_rotation import rotate
+from image_rotation import rotate, set_dtype
 
 class State(Enum):
   BASE = 0
@@ -19,15 +19,16 @@ def grayscale_circle(image, radius, center_x, center_y):  # the values being pas
   radius = int(radius)
   center_x = int(center_x)
   center_y = int(center_y)
+  img_dtype = image.dtype
 
   print("grayscaling circle")
-  out = zeros(image.shape, uint8)
+  out = zeros(image.shape, image.dtype)
   for x in range(image.shape[1]):
     for y in range(image.shape[0]):
       if (x - center_x) ** 2 + (y - center_y) ** 2 > radius ** 2:
         out[y][x] = image[y][x]
       else:
-        out[y][x] = uint8((int(image[y][x][0]) + int(image[y][x][1]) + int(image[y][x][2])) // 3)
+        out[y][x] = set_dtype((int(image[y][x][0]) + int(image[y][x][1]) + int(image[y][x][2])) // 3, img_dtype)
   return out
 
 def crop(image, start_x, end_x, start_y, end_y):
@@ -87,7 +88,7 @@ def process_import_file(input_file_name, output_directory):
       case State.PROCESSING_IMAGES:
         image_index += 1
         check_processing_images_line_validity(line, line_num, image_index, image_names)
-        images.append(imread(image_names[image_index]))
+        images.append(imread(image_names[image_index], IMREAD_UNCHANGED))
         state = State.RECEIVING_TRANSFORMATIONS
       case State.RECEIVING_TRANSFORMATIONS:
         if line.startswith("- "):

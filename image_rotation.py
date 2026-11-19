@@ -1,8 +1,10 @@
 import math
 
-from numpy import array, uint8, zeros
+from numpy import array, uint8, zeros, dtype
 
 def rotate(image, angle, type):
+  img_dtype = image.dtype
+  print("image type:", image.dtype)
   print(angle)
   radian_angle = round(float(angle)*math.pi/180.0, 6) # convert to radians
   print(radian_angle)
@@ -29,7 +31,7 @@ def rotate(image, angle, type):
     int(max([tc[1] for tc in transf_corners]))
   ]
   print(f"new corners: {new_corners}")
-  new_img_size = [0,0,3]
+  new_img_size = [0,0,image.shape[2]]
   new_img_size[0] = new_corners[1][0]-new_corners[0][0]
   new_img_size[1] = new_corners[1][1]-new_corners[0][1]
   print(f"new image size: {new_img_size}")
@@ -38,7 +40,7 @@ def rotate(image, angle, type):
   origin = [new_corners[0][0], new_corners[0][1]] 
   print(f"origin: {origin}")
   
-  rotated_image = zeros(new_img_size, uint8)
+  rotated_image = zeros(new_img_size, img_dtype)
 
   if type == "nearest_neighbor_interpolation" or type == "nearest_neighbor":
     for row in range(0, new_img_size[0]): 
@@ -87,14 +89,21 @@ def linear_interpolation_scalar(Pt1, Pt2, location_x, pix1, pix2): # used for bi
     interpolated_value = pix1 + slope * (location_x - Pt1)
     return interpolated_value
 
-def bilinear_interpolation(Pt1_x, Pt2_x, Pt1_y, Pt2_y, location_x, location_y, pixel1, pixel2, pixel3, pixel4):
+def bilinear_interpolation(Pt1_x, Pt2_x, Pt1_y, Pt2_y, location_x, location_y, pixel1, pixel2, pixel3, pixel4, img_dtype=uint8): # used for bilinear interpolation
 
   interpolation_1 = linear_interpolation(Pt1_x, Pt2_x, float(location_x), pixel1, pixel2)
   interpolation_2 = linear_interpolation(Pt1_x, Pt2_x, float(location_x), pixel3, pixel4)
   interpolation_3 = linear_interpolation(Pt1_y, Pt2_y, float(location_y), interpolation_1, interpolation_2)
-  if interpolation_3.ndim == 0:
-    return uint8(round(interpolation_3, 0))
-  for i in range(interpolation_3.ndim):
-    interpolation_3[i] = uint8(round(interpolation_3[i], 0))
-  return interpolation_3
+  # if interpolation_3.ndim == 0:
+  #   return dtype(img_dtype).type(round(interpolation_3, 0))
+  # for i in range(interpolation_3.ndim):
+  #   interpolation_3[i] = round(interpolation_3[i], 0).astype(img_dtype)
+  return set_dtype(interpolation_3, img_dtype)
+
+def set_dtype(pixel, img_dtype):
+  if isinstance(pixel, (int, float, complex)) or pixel.ndim == 0:
+    return dtype(img_dtype).type(round(pixel, 0))
+  for i in range(pixel.ndim):
+    pixel[i] = round(pixel[i], 0).astype(img_dtype)
+  return pixel
   

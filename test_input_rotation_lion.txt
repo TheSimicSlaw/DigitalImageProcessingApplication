@@ -1,0 +1,87 @@
+images:
+- lion.jpg
+- lion.jpg
+- lion.jpg
+- lion.jpg
+- lion.jpg
+- lion.jpg
+- lion.jpg
+- lion.jpg
+- lion.jpg
+- lion.jpg
+- lion.jpg
+- lion.jpg
+image transforms:
+- lion.jpg:
+-- rotate:
+--- angle 1
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_01.jpg
+- lion.jpg:
+-- rotate:
+--- angle 5
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_05.jpg
+- lion.jpg:
+-- rotate:
+--- angle 10
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_10.jpg
+- lion.jpg:
+-- rotate:
+--- angle 15
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_15.jpg
+- lion.jpg:
+-- rotate:
+--- angle 30
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_30.jpg
+- lion.jpg:
+-- rotate:
+--- angle 45
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_45.jpg
+- lion.jpg:
+-- rotate:
+--- angle 60
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_60.jpg
+- lion.jpg:
+-- rotate:
+--- angle 90
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_90.jpg
+- lion.jpg:
+-- rotate:
+--- angle 120
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_120.jpg
+- lion.jpg:
+-- rotate:
+--- angle 135
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_135.jpg
+- lion.jpg:
+-- rotate:
+--- angle 150
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_150.jpg
+- lion.jpg:
+-- rotate:
+--- angle 180
+--- type nearest_neighbor_interpolation
+-- save:
+--- image_name lion_rotated_nn_180.jpg
+completed

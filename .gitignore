@@ -22,5 +22,5 @@ dist/
 venv/
 env/
 
-# VS Code workspace settings (optional)
+# VS Code workspace settings
 .vscode/
