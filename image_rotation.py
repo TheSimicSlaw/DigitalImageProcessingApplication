@@ -6,7 +6,7 @@ def rotate(image, angle, type):
   img_dtype = image.dtype
   print("image type:", image.dtype)
   radian_angle = round(float(angle)*math.pi/180.0, 6) # convert to radians
-  print(f"rotating {angle} degrees ({radian_angle} radians) using {type.replace("_", " ")} interpolation")
+  print(f"rotating {angle} degrees ({radian_angle} radians) using {type.replace("_", " ")}")
   trans_mat = array([[math.cos(radian_angle), -math.sin(radian_angle)], 
                          [math.sin(radian_angle), math.cos(radian_angle)]]) # rotation matrix, counterclockwise by angle in radians
   inv_trans_mat = array([[math.cos(radian_angle), math.sin(radian_angle)], 
