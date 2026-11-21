@@ -5,10 +5,8 @@ from numpy import array, uint8, zeros, dtype
 def rotate(image, angle, type):
   img_dtype = image.dtype
   print("image type:", image.dtype)
-  print(angle)
   radian_angle = round(float(angle)*math.pi/180.0, 6) # convert to radians
-  print(radian_angle)
-  print("rotating")
+  print(f"rotating {angle} degrees ({radian_angle} radians) using {type.replace("_", " ")} interpolation")
   trans_mat = array([[math.cos(radian_angle), -math.sin(radian_angle)], 
                          [math.sin(radian_angle), math.cos(radian_angle)]]) # rotation matrix, counterclockwise by angle in radians
   inv_trans_mat = array([[math.cos(radian_angle), math.sin(radian_angle)], 
@@ -19,7 +17,6 @@ def rotate(image, angle, type):
   transf_corners[1] = (trans_mat @ array([img_size[0], 0])).astype(int) # bottom left corner
   transf_corners[2] = (trans_mat @ array([img_size[0], img_size[1]])).astype(int) # bottom right corner
   transf_corners[3] = (trans_mat @ array([0, img_size[1],])).astype(int) # top right corner
-  print(f"transformed corners: {transf_corners}")
 
   new_corners = [array([0, 0], dtype=int) for _ in range(2)]
   new_corners[0] = [
@@ -30,15 +27,13 @@ def rotate(image, angle, type):
     int(max([tc[0] for tc in transf_corners])),
     int(max([tc[1] for tc in transf_corners]))
   ]
-  print(f"new corners: {new_corners}")
   new_img_size = [0,0,image.shape[2]]
   new_img_size[0] = new_corners[1][0]-new_corners[0][0]
   new_img_size[1] = new_corners[1][1]-new_corners[0][1]
   print(f"new image size: {new_img_size}")
 
   # Shift output pixel coordinates so inverse mapping samples from valid source space.
-  origin = [new_corners[0][0], new_corners[0][1]] 
-  print(f"origin: {origin}")
+  origin = [new_corners[0][0], new_corners[0][1]]
   
   rotated_image = zeros(new_img_size, img_dtype)
 
@@ -49,9 +44,7 @@ def rotate(image, angle, type):
         location = inv_trans_mat @ array([r_dest, c_dest])
         nearest_row, nearest_col = int(round(location[0], 0)), int(round(location[1], 0))
         if(0 <= nearest_row < img_size[0] and 0 <= nearest_col < img_size[1]):
-          rotated_image[row, col] = image[nearest_row, nearest_col] 
-        if nearest_col == 0 and nearest_row == 0:
-          print(f"origin: ({row}, {col})")
+          rotated_image[row, col] = image[nearest_row, nearest_col]
 
   elif type == "bilinear_interpolation" or type == "bilinear":
     for row in range(0, new_img_size[0]):

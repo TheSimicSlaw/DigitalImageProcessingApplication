@@ -35,10 +35,10 @@ def set_directory(output_folder_name):
 def args_valid_check(args):
   if args.input_file == None:
     print("input_file is missing. Please enter one and start again")
-    raise WindowsError("input_file is missing. Please enter one and start again")
+    raise OSError("input_file is missing. Please enter one and start again")
   if args.output_folder == None:
     print("output_folder is missing")
-    raise WindowsError("output_folder is missing")
+    raise OSError("output_folder is missing")
 
 
 if __name__ == "__main__":  

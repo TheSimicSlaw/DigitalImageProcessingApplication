@@ -1,5 +1,7 @@
 mages:
 - mtg_logo_no_background.png
+- mtg_logo_no_background.png
+- mtg_logo_no_background.png
 image transforms:
 - mtg_logo_no_background.png:
 -- rotate:
@@ -27,4 +29,56 @@ image transforms:
 --- center_y 805
 -- save: 
 --- image_name mtg_logo_gray_symbols.png
+- mtg_logo_no_background.png:
+-- rotate:
+--- angle -1
+--- type bilinear_interpolation
+-- grayscale_circle:
+--- radius 165
+--- center_x 520
+--- center_y 233
+-- grayscale_circle:
+--- radius 165
+--- center_x 786
+--- center_y 468
+-- grayscale_circle:
+--- radius 165
+--- center_x 254
+--- center_y 468
+-- grayscale_circle:
+--- radius 165
+--- center_x 710
+--- center_y 811
+-- grayscale_circle:
+--- radius 165
+--- center_x 358
+--- center_y 805
+-- save: 
+--- image_name mtg_logo_partial_gray_symbols.png
+- mtg_logo_no_background.png:
+-- rotate:
+--- angle -1
+--- type bilinear_interpolation
+-- grayscale_circle:
+--- radius 150
+--- center_x 520
+--- center_y 233
+-- grayscale_circle:
+--- radius 150
+--- center_x 786
+--- center_y 468
+-- grayscale_circle:
+--- radius 150
+--- center_x 254
+--- center_y 468
+-- grayscale_circle:
+--- radius 150
+--- center_x 710
+--- center_y 811
+-- grayscale_circle:
+--- radius 150
+--- center_x 358
+--- center_y 805
+-- save: 
+--- image_name mtg_logo_gray_inner_symbols.png
 completed
